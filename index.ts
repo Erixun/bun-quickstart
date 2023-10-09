@@ -1,7 +1,13 @@
 import figlet from 'figlet';
 import Express from 'express';
+import createRandomUser from './util/getRandomUser';
 
 const app = Express();
+
+app.use('/user', (req, res) => {
+  const user = createRandomUser();
+  res.send(user);
+});
 
 //serve static files from client folder
 app.use(Express.static('client/dist'));
@@ -10,7 +16,6 @@ app.use(Express.static('client/dist'));
 app.get('*', (req, res) => {
   res.sendFile('index.html', { root: 'client/dist' });
 });
-
 
 const server = app.listen(3000, () => {
   const body = figlet.textSync('Bun');
